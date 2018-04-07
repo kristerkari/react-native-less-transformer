@@ -34,9 +34,12 @@ module.exports = {
 
 Your `App.less` file might look like this:
 
-```scss
+```less
+@nice-blue: #5b83ad;
+@light-blue: @nice-blue + #111;
+
 .myClass {
-  color: blue;
+  color: @light-blue;
 }
 .myOtherClass {
   color: red;
@@ -54,7 +57,7 @@ Your imported styles will look like this:
 ```js
 var styles = {
   myClass: {
-    color: "blue"
+    color: "#6c94be"
   },
   myOtherClass: {
     color: "red"
