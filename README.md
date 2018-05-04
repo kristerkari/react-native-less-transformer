@@ -25,7 +25,7 @@ module.exports = {
     return require.resolve("react-native-less-transformer");
   },
   getSourceExts() {
-    return ["less"];
+    return ["js", "jsx", "less"];
   }
 };
 ```
