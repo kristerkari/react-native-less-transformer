@@ -30,6 +30,19 @@ module.exports = {
 };
 ```
 
+...or if you are using [Expo](https://expo.io/), in `app.json`:
+
+```json
+{
+  "expo": {
+    "packagerOpts": {
+      "sourceExts": ["js", "jsx", "less"],
+      "transformer": "node_modules/react-native-less-transformer/index.js"
+    }
+  }
+}
+```
+
 ## How does it work?
 
 Your `App.less` file might look like this:
