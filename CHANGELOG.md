@@ -1,3 +1,7 @@
+## v1.1.3
+
+- Fixed: `@import` was not working because missing `paths` setting.
+
 ## v1.1.2
 
 - Updated: `css-to-react-native-transform` dependency to v1.7.0.
