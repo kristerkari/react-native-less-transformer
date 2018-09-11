@@ -1,5 +1,7 @@
 var less = require("less");
 var semver = require("semver");
+var path = require("path");
+var appRoot = require("app-root-path");
 var css2rn = require("css-to-react-native-transform").default;
 
 var upstreamTransformer = null;
@@ -32,14 +34,16 @@ module.exports.transform = function(src, filename, options) {
   }
 
   if (filename.endsWith(".less")) {
-    return less.render(src).then(result => {
-      var cssObject = css2rn(result.css, { parseMediaQueries: true });
-      return upstreamTransformer.transform({
-        src: "module.exports = " + JSON.stringify(cssObject),
-        filename,
-        options
+    return less
+      .render(src, { paths: [path.dirname(filename), appRoot] })
+      .then(result => {
+        var cssObject = css2rn(result.css, { parseMediaQueries: true });
+        return upstreamTransformer.transform({
+          src: "module.exports = " + JSON.stringify(cssObject),
+          filename,
+          options
+        });
       });
-    });
   }
   return upstreamTransformer.transform({ src, filename, options });
 };
