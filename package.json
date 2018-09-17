@@ -17,6 +17,7 @@
     "README.md"
   ],
   "dependencies": {
+    "app-root-path": "^2.1.0",
     "css-to-react-native-transform": "^1.7.0",
     "semver": "^5.5.0"
   },
