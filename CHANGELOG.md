@@ -1,3 +1,7 @@
+## v1.1.4
+
+- Fixed: added missing dependency `app-root-path` to `package.json`.
+
 ## v1.1.3
 
 - Fixed: `@import` was not working because missing `paths` setting.
