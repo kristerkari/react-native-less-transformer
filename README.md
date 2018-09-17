@@ -7,6 +7,8 @@ Load Less files to [react native style objects](https://facebook.github.io/react
 
 > This transformer can be used together with [React Native CSS modules](https://github.com/kristerkari/react-native-css-modules).
 
+_Minimum React Native version for this tranformer is 0.52. If you are using an older version, please update to a newer React Native version before trying to use this transformer._
+
 ## Usage
 
 ### Step 1: Install
