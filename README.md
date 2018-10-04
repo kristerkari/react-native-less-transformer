@@ -6,8 +6,6 @@ Behind the scenes the `.less` files are transformed to [react native style objec
 
 > This transformer can be used together with [React Native CSS modules](https://github.com/kristerkari/react-native-css-modules).
 
-_Minimum React Native version for this transformer is 0.52. If you are using an older version, please update to a newer React Native version before trying to use this transformer._
-
 ## How does it work?
 
 Your `App.less` file might look like this:
@@ -70,6 +68,8 @@ You can then use that style object with an element:
 ```
 
 ## Installation and configuration
+
+_Minimum React Native version for this transformer is 0.52. If you are using an older version, please update to a newer React Native version before trying to use this transformer._
 
 ### Step 1: Install
 
