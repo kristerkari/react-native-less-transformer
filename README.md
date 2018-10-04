@@ -55,13 +55,13 @@ You can then use that style object with an element:
 <MyElement style={styles.myClass} />
 ```
 
-**React Native CSS modules using [className](https://github.com/kristerkari/babel-plugin-react-native-classname-to-style) property:**
+**[React Native CSS modules](https://github.com/kristerkari/react-native-css-modules) using [className](https://github.com/kristerkari/babel-plugin-react-native-classname-to-style) property:**
 
 ```jsx
 <MyElement className={styles.myClass} />
 ```
 
-**React Native CSS modules using [styleName](https://github.com/kristerkari/babel-plugin-react-native-stylename-to-style) property:**
+**[React Native CSS modules](https://github.com/kristerkari/react-native-css-modules) using [styleName](https://github.com/kristerkari/babel-plugin-react-native-stylename-to-style) property:**
 
 ```jsx
 <MyElement styleName="myClass my-dashed-class" />
