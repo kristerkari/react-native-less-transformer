@@ -1,4 +1,4 @@
-# react-native-less-transformerc[![NPM version](http://img.shields.io/npm/v/react-native-less-transformer.svg)](https://www.npmjs.org/package/react-native-less-transformer) [![Downloads per month](https://img.shields.io/npm/dm/react-native-less-transformer.svg)](http://npmcharts.com/compare/react-native-less-transformer?periodLength=30) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
+# react-native-less-transformer [![NPM version](http://img.shields.io/npm/v/react-native-less-transformer.svg)](https://www.npmjs.org/package/react-native-less-transformer) [![Downloads per month](https://img.shields.io/npm/dm/react-native-less-transformer.svg)](http://npmcharts.com/compare/react-native-less-transformer?periodLength=30) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
 
 Use [Less](http://lesscss.org/) to style your React Native apps.
 
