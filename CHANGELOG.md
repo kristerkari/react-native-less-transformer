@@ -1,3 +1,7 @@
+## v1.1.5
+
+- Fixed: Compatibility with react-native v0.59
+
 ## v1.1.4
 
 - Fixed: added missing dependency `app-root-path` to `package.json`.
