@@ -29,6 +29,22 @@ if (reactNativeMinorVersion >= 59) {
   };
 }
 
+function renderToCSS({ src, filename, options }) {
+  var lessPromise = new Promise((resolve, reject) => {
+    less
+      .render(src, { paths: [path.dirname(filename), appRoot] })
+      .then(result => {
+        resolve(result.css);
+      })
+      .catch(reject);
+  });
+  return lessPromise;
+}
+
+function renderCSSToReactNative(css) {
+  return css2rn(css, { parseMediaQueries: true });
+}
+
 module.exports.transform = function(src, filename, options) {
   if (typeof src === "object") {
     // handle RN >= 0.46
@@ -36,16 +52,16 @@ module.exports.transform = function(src, filename, options) {
   }
 
   if (filename.endsWith(".less")) {
-    return less
-      .render(src, { paths: [path.dirname(filename), appRoot] })
-      .then(result => {
-        var cssObject = css2rn(result.css, { parseMediaQueries: true });
-        return upstreamTransformer.transform({
-          src: "module.exports = " + JSON.stringify(cssObject),
-          filename,
-          options
-        });
+    return renderToCSS().then(css => {
+      var cssObject = renderCSSToReactNative(css);
+      return upstreamTransformer.transform({
+        src: "module.exports = " + JSON.stringify(cssObject),
+        filename,
+        options
       });
+    });
   }
   return upstreamTransformer.transform({ src, filename, options });
 };
+
+module.exports.renderToCSS = renderToCSS;
