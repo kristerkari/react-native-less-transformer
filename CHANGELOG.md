@@ -1,3 +1,7 @@
+## v1.2.0
+
+- Added: `renderToCSS` method. It can be used together with the PostCSS transformer to add support for CSS variables.
+
 ## v1.1.6
 
 - Updated: `semver` dependency to v5.6.0.
