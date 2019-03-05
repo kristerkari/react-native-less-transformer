@@ -155,6 +155,16 @@ If you are using [Expo](https://expo.io/), instead of adding the `rn-cli.config.
 
 _You need version 1.2.0 or newer_
 
+```css
+:root {
+  --text-color: blue;
+}
+
+.blue {
+  color: var(--text-color);
+}
+```
+
 CSS variables are not supported by default, but you can add support for them by using [PostCSS](https://postcss.org/) and [postcss-css-variables](https://github.com/MadLittleMods/postcss-css-variables#readme) plugin.
 
 Start by installing dependencies:
