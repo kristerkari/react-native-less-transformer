@@ -1,3 +1,7 @@
+## v1.2.1
+
+- Fixed: call to `renderToCSS` was missing parameters.
+
 ## v1.2.0
 
 - Added: `renderToCSS` method. It can be used together with the PostCSS transformer to add support for CSS variables.

@@ -153,7 +153,7 @@ If you are using [Expo](https://expo.io/), instead of adding the `rn-cli.config.
 
 ## CSS Custom Properties (CSS variables)
 
-_You need version 1.2.0 or newer_
+_You need version 1.2.1 or newer_
 
 ```css
 :root {
