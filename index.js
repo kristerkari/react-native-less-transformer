@@ -30,9 +30,10 @@ if (reactNativeMinorVersion >= 59) {
 }
 
 function renderToCSS({ src, filename, options = {} }) {
+  var { lessOptions = {} } = options;
   var lessPromise = new Promise((resolve, reject) => {
     less
-      .render(src, { paths: [path.dirname(filename), appRoot], ...options })
+      .render(src, { paths: [path.dirname(filename), appRoot], ...lessOptions })
       .then(result => {
         resolve(result.css);
       })
@@ -51,10 +52,8 @@ module.exports.transform = function(src, filename, options) {
     ({ src, filename, options } = src);
   }
 
-  var { lessOptions } = options || {};
-
   if (filename.endsWith(".less")) {
-    return renderToCSS({ src, filename, options: lessOptions }).then(css => {
+    return renderToCSS({ src, filename, options }).then(css => {
       var cssObject = renderCSSToReactNative(css);
       return upstreamTransformer.transform({
         src: "module.exports = " + JSON.stringify(cssObject),
