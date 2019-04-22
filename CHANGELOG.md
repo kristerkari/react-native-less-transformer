@@ -1,3 +1,7 @@
+## v1.3.0
+
+- Added: support for passing options to `less`.
+
 ## v1.2.1
 
 - Fixed: call to `renderToCSS` was missing parameters.
