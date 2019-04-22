@@ -29,10 +29,11 @@ if (reactNativeMinorVersion >= 59) {
   };
 }
 
-function renderToCSS({ src, filename, options }) {
+function renderToCSS({ src, filename, options = {} }) {
+  var { lessOptions = {} } = options;
   var lessPromise = new Promise((resolve, reject) => {
     less
-      .render(src, { paths: [path.dirname(filename), appRoot] })
+      .render(src, { paths: [path.dirname(filename), appRoot], ...lessOptions })
       .then(result => {
         resolve(result.css);
       })
