@@ -46,17 +46,21 @@ function renderCSSToReactNative(css) {
   return css2rn(css, { parseMediaQueries: true });
 }
 
-module.exports.transform = function(src, filename, options) {
+function defaultTemplate(cssObject) {
+  return "module.exports = " + JSON.stringify(cssObject);
+}
+
+module.exports.transform = function(src, filename, options, template) {
   if (typeof src === "object") {
     // handle RN >= 0.46
-    ({ src, filename, options } = src);
+    ({ src, filename, options, template } = src);
   }
 
   if (filename.endsWith(".less")) {
     return renderToCSS({ src, filename, options }).then(css => {
       var cssObject = renderCSSToReactNative(css);
       return upstreamTransformer.transform({
-        src: "module.exports = " + JSON.stringify(cssObject),
+        src: template ? template(cssObject) : defaultTemplate(cssObject),
         filename,
         options
       });
