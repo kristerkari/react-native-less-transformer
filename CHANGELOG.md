@@ -1,3 +1,9 @@
+## v1.4.0
+
+- Updated: `semver` dependency to v7.3.8.
+- Updated: `css-to-react-native-transform` dependency to v2.0.0.
+- Updated: `app-root-path` dependency to v3.1.0.
+
 ## v1.3.0
 
 - Added: support for passing options to `less`.
