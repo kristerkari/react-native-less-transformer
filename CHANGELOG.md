@@ -1,3 +1,7 @@
+## v1.4.1
+
+- Fixed: an error being thrown after updating `semver`.
+
 ## v1.4.0
 
 - Updated: `semver` dependency to v7.3.8.
