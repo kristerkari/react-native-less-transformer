@@ -174,7 +174,7 @@ var upstreamTransformer = require("metro-react-native-babel-transformer");
 
 var lessTransformer = require("react-native-less-transformer");
 
-module.exports.transform = function({ src, filename, options }) {
+module.exports.transform = function ({ src, filename, options }) {
   if (filename.endsWith(".less")) {
     var opts = Object.assign(options, {
       lessOptions: {
@@ -253,11 +253,11 @@ var upstreamTransformer = require("metro-react-native-babel-transformer");
 var lessTransformer = require("react-native-less-transformer");
 var postCSSTransformer = require("react-native-postcss-transformer");
 
-module.exports.transform = function({ src, filename, options }) {
+module.exports.transform = function ({ src, filename, options }) {
   if (filename.endsWith(".less")) {
     return lessTransformer
       .renderToCSS({ src, filename, options })
-      .then(css =>
+      .then((css) =>
         postCSSTransformer.transform({ src: css, filename, options })
       );
   } else {
