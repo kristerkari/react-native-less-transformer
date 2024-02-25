@@ -1,3 +1,7 @@
+## v1.5.1
+
+- Fixed: `semver` throwing an error.
+
 ## v1.5.0
 
 - Added: support for react-native v0.73
