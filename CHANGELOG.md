@@ -1,3 +1,7 @@
+## v1.5.2
+
+- Fixed: another attempt at fixing `semver` throwing an error.
+
 ## v1.5.1
 
 - Fixed: `semver` throwing an error.
