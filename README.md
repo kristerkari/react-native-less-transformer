@@ -78,78 +78,74 @@ _Minimum React Native version for this transformer is 0.52. If you are using an 
 ### Step 1: Install
 
 ```sh
+npm install --save-dev react-native-less-transformer less
+```
+
+or
+
+```sh
 yarn add --dev react-native-less-transformer less
 ```
 
 ### Step 2: Configure the react native packager
 
-#### For React Native v0.57 or newer / Expo SDK v31.0.0 or newer
+#### For Expo SDK v41.0.0 or newer
 
-Add this to `metro.config.js` in your project's root (create the file if it does not exist already):
+Merge the contents from your project's `metro.config.js` file with this config (create the file if it does not exist already).
+
+`metro.config.js`:
 
 ```js
-const { getDefaultConfig } = require("metro-config");
+const { getDefaultConfig } = require("expo/metro-config");
 
-module.exports = (async () => {
-  const {
-    resolver: { sourceExts }
-  } = await getDefaultConfig();
-  return {
-    transformer: {
-      babelTransformerPath: require.resolve("react-native-less-transformer")
-    },
-    resolver: {
-      sourceExts: [...sourceExts, "less"]
-    }
+module.exports = (() => {
+  const config = getDefaultConfig(__dirname);
+
+  const { transformer, resolver } = config;
+
+  config.transformer = {
+    ...transformer,
+    babelTransformerPath: require.resolve("react-native-less-transformer")
   };
+  config.resolver = {
+    ...resolver,
+    sourceExts: [...sourceExts, "less"]
+  };
+
+  return config;
 })();
 ```
 
-If you are using [Expo](https://expo.io/), you also need to add this to `app.json`:
-
-```json
-{
-  "expo": {
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "less"]
-    }
-  }
-}
-```
-
 ---
 
-#### For React Native v0.56 or older
+#### For React Native v0.72.1 or newer
 
-If you are using React Native without Expo, add this to `rn-cli.config.js` in your project's root (create the file if you don't have one already):
+Merge the contents from your project's `metro.config.js` file with this config (create the file if it does not exist already).
+
+`metro.config.js`:
 
 ```js
-module.exports = {
-  getTransformModulePath() {
-    return require.resolve("react-native-less-transformer");
+const { getDefaultConfig, mergeConfig } = require("@react-native/metro-config");
+
+const defaultConfig = getDefaultConfig(__dirname);
+const { assetExts, sourceExts } = defaultConfig.resolver;
+
+/**
+ * Metro configuration
+ * https://reactnative.dev/docs/metro
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {
+  transformer: {
+    babelTransformerPath: require.resolve("react-native-less-transformer")
   },
-  getSourceExts() {
-    return ["js", "jsx", "less"];
+  resolver: {
+    sourceExts: [...sourceExts, "less"]
   }
 };
-```
 
----
-
-#### For Expo SDK v30.0.0 or older
-
-If you are using [Expo](https://expo.io/), instead of adding the `rn-cli.config.js` file, you need to add this to `app.json`:
-
-```json
-{
-  "expo": {
-    "packagerOpts": {
-      "sourceExts": ["js", "jsx", "less"],
-      "transformer": "node_modules/react-native-less-transformer/index.js"
-    }
-  }
-}
+module.exports = mergeConfig(defaultConfig, config);
 ```
 
 ## LESS options
@@ -157,58 +153,28 @@ If you are using [Expo](https://expo.io/), instead of adding the `rn-cli.config.
 If you need to pass options (e.g. plugins) to `less`, you can do so by creating a `transformer.js` file and doing the following:
 
 ```js
-// For React Native version 0.73 or later
-var upstreamTransformer = require("@react-native/metro-babel-transformer");
+const upstreamTransformer = require("@react-native/metro-babel-transformer");
+const lessTransformer = require("react-native-less-transformer");
 
-// For React Native version 0.59 or later
-// var upstreamTransformer = require("metro-react-native-babel-transformer");
-
-// For React Native version 0.56-0.58
-// var upstreamTransformer = require("metro/src/reactNativeTransformer");
-
-// For React Native version 0.52-0.55
-// var upstreamTransformer = require("metro/src/transformer");
-
-// For React Native version 0.47-0.51
-// var upstreamTransformer = require("metro-bundler/src/transformer");
-
-// For React Native version 0.46
-// var upstreamTransformer = require("metro-bundler/build/transformer");
-
-var lessTransformer = require("react-native-less-transformer");
-
-module.exports.transform = function ({ src, filename, options }) {
+module.exports.transform = function ({ src, filename, options, ...rest }) {
   if (filename.endsWith(".less")) {
     var opts = Object.assign(options, {
       lessOptions: {
         plugins: [require("less-plugin-glob")]
       }
     });
-    return lessTransformer.transform({ src, filename, options: opts });
+    return lessTransformer.transform({ src, filename, options: opts, ...rest });
   } else {
-    return upstreamTransformer.transform({ src, filename, options });
+    return upstreamTransformer.transform({ src, filename, options, ...rest });
   }
 };
 ```
 
 After that in `metro.config.js` point the `babelTransformerPath` to that file:
 
-```js
-const { getDefaultConfig } = require("metro-config");
-
-module.exports = (async () => {
-  const {
-    resolver: { sourceExts }
-  } = await getDefaultConfig();
-  return {
-    transformer: {
-      babelTransformerPath: require.resolve("./transformer.js")
-    },
-    resolver: {
-      sourceExts: [...sourceExts, "less"]
-    }
-  };
-})();
+```diff
+-require.resolve("react-native-less-transformer")
++require.resolve("./transformer.js")
 ```
 
 ## CSS Custom Properties (CSS variables)
@@ -230,6 +196,12 @@ CSS variables are not supported by default, but you can add support for them by 
 Start by installing dependencies:
 
 ```sh
+npm install postcss postcss-css-variables react-native-postcss-transformer --save-dev
+```
+
+or
+
+```sh
 yarn add postcss postcss-css-variables react-native-postcss-transformer --dev
 ```
 
@@ -238,58 +210,28 @@ Add `postcss-css-variables` to your PostCSS configuration with [one of the suppo
 After that create a `transformer.js` file and do the following:
 
 ```js
-// For React Native version 0.73 or later
-var upstreamTransformer = require("@react-native/metro-babel-transformer");
+const upstreamTransformer = require("@react-native/metro-babel-transformer");
+const lessTransformer = require("react-native-less-transformer");
+const postCSSTransformer = require("react-native-postcss-transformer");
 
-// For React Native version 0.59 or later
-// var upstreamTransformer = require("metro-react-native-babel-transformer");
-
-// For React Native version 0.56-0.58
-// var upstreamTransformer = require("metro/src/reactNativeTransformer");
-
-// For React Native version 0.52-0.55
-// var upstreamTransformer = require("metro/src/transformer");
-
-// For React Native version 0.47-0.51
-// var upstreamTransformer = require("metro-bundler/src/transformer");
-
-// For React Native version 0.46
-// var upstreamTransformer = require("metro-bundler/build/transformer");
-
-var lessTransformer = require("react-native-less-transformer");
-var postCSSTransformer = require("react-native-postcss-transformer");
-
-module.exports.transform = function ({ src, filename, options }) {
+module.exports.transform = function ({ src, filename, ...rest }) {
   if (filename.endsWith(".less")) {
     return lessTransformer
       .renderToCSS({ src, filename, options })
       .then((css) =>
-        postCSSTransformer.transform({ src: css, filename, options })
+        postCSSTransformer.transform({ src: css, filename, ...rest })
       );
   } else {
-    return upstreamTransformer.transform({ src, filename, options });
+    return upstreamTransformer.transform({ src, filename, ...rest });
   }
 };
 ```
 
 After that in `metro.config.js` point the `babelTransformerPath` to that file:
 
-```js
-const { getDefaultConfig } = require("metro-config");
-
-module.exports = (async () => {
-  const {
-    resolver: { sourceExts }
-  } = await getDefaultConfig();
-  return {
-    transformer: {
-      babelTransformerPath: require.resolve("./transformer.js")
-    },
-    resolver: {
-      sourceExts: [...sourceExts, "less"]
-    }
-  };
-})();
+```diff
+-require.resolve("react-native-less-transformer")
++require.resolve("./transformer.js")
 ```
 
 ## Dependencies
@@ -298,4 +240,3 @@ This library has the following Node.js modules as dependencies:
 
 - [app-root-path](https://github.com/inxilpro/node-app-root-path)
 - [css-to-react-native-transform](https://github.com/kristerkari/css-to-react-native-transform)
-- [semver](https://github.com/npm/node-semver#readme)
