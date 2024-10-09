@@ -109,7 +109,7 @@ module.exports = (() => {
   };
   config.resolver = {
     ...resolver,
-    sourceExts: [...sourceExts, "less"]
+    sourceExts: [...resolver.sourceExts, "less"]
   };
 
   return config;
